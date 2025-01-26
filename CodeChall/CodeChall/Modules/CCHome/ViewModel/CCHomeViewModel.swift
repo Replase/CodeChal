@@ -8,7 +8,7 @@
 import SwiftUI
 
 class CCHomeViewModel: ObservableObject {
-    private var remoteDataManager: CCHomeRemoteDataManager {
+    var remoteDataManager: CCHomeRemoteDataManager {
         let selfClass = CCHomeRemoteDataManager()
         selfClass.output = self
         return selfClass
@@ -22,6 +22,7 @@ class CCHomeViewModel: ObservableObject {
             await remoteDataManager.getData()
         }
     }
+    
     
     func getCryptoData() -> CCCryptoData? {
         return data
