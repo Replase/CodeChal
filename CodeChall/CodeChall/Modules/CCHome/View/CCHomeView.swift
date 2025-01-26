@@ -26,7 +26,11 @@ struct CCHomeView: View {
     
     private var listView: some View {
         List(viewModel.searchData, id: \.id) { crypto in
-            rowCrypto(cryp: crypto)
+            NavigationLink {
+                
+            } label: {
+                rowCrypto(cryp: crypto)
+            }
         }
         .refreshable {
             Task {
