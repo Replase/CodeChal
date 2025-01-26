@@ -16,6 +16,10 @@ extension LHEndpoint {
     
     var urlComponents: URLComponents {
         var components = URLComponents(string: base)!
+        components.queryItems = [
+            URLQueryItem(name: "vs_currency", value: "usd")
+        ]
+
         components.path = path
         return components
     }

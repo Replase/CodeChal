@@ -11,11 +11,16 @@ enum CCPath {
     case crypto
 }
 
-extension CCPath {
+extension CCPath: LHEndpoint {
+    
+    var base: String {
+        "https://api.coingecko.com"
+    }
+    
     var path: String {
         switch self {
         case .crypto:
-            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd"
+            "/api/v3/coins/markets"
         }
     }
     
