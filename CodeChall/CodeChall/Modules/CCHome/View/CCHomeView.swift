@@ -12,8 +12,9 @@ struct CCHomeView: View {
     var body: some View {
         NavigationStack {
             listView
+                .navigationTitle("Home")
         }
-        .searchable(text: $viewModel.strSearchText, prompt: "Buscar")
+        .searchable(text: $viewModel.strSearchText, prompt: "Search")
         .onChange(of: viewModel.strSearchText) { _, newValue in
             if !newValue.isEmpty {
                 viewModel.searchData(dataName: newValue)
@@ -25,13 +26,41 @@ struct CCHomeView: View {
     
     private var listView: some View {
         List(viewModel.searchData, id: \.id) { crypto in
-            Text(crypto.name)
+            rowCrypto(cryp: crypto)
+        }
+        .refreshable {
+            Task {
+                await viewModel.remoteDataManager.getData()
+            }
         }
     }
     
-    private var rowCrypto: some View {
-        VStack {
-            
+    private func rowCrypto(cryp: CCCryptoDatum) -> some View {
+        HStack {
+            if let url = URL(string: cryp.image) {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                    case .success(let image):
+                        image.resizable()
+                            .scaledToFit()
+                            .frame(width: 35, height: 35)
+                    case .failure:
+                        Text("Failed to load image")
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+            }
+            VStack(alignment: .leading) {
+                Text(cryp.name)
+                    .bold()
+                    .font(.headline)
+                Text(cryp.symbol)
+                Text(cryp.currentPrice.formatToDollar() ?? "")
+                Text(cryp.lastUpdated.formatDate() ?? "")
+            }
         }
     }
 }
