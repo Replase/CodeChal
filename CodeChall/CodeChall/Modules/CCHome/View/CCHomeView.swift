@@ -32,7 +32,7 @@ struct CCHomeView: View {
     private var listView: some View {
         List(viewModel.searchData, id: \.id) { crypto in
             NavigationLink {
-                
+                CCDetail(cryptoData: crypto)
             } label: {
                 rowCrypto(cryp: crypto)
             }

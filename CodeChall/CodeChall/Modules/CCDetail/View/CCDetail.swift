@@ -14,7 +14,39 @@ struct CCDetail: View {
         self.viewModel = CCDetailViewModel(detailCrypto: cryptoData)
     }
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 10) {
+                    Text(viewModel.detailCrypto.name)
+                        .bold()
+                        .font(.title)
+                    if let url = URL(string: viewModel.detailCrypto.image) {
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                            case .success(let image):
+                                image.resizable()
+                                    .scaledToFit()
+                                    .frame(width: 100, height: 100)
+                            case .failure:
+                                Image(systemName: "photo")
+                                    .scaledToFit()
+                                    .frame(width: 100, height: 100)
+                            @unknown default:
+                                EmptyView()
+                            }
+                        }
+                    }
+                    Text("\(viewModel.detailCrypto.totalVolume)")
+                    Text(viewModel.detailCrypto.high24H.formatToDollar() ?? "")
+                    Text(viewModel.detailCrypto.low24H.formatToDollar() ?? "")
+                    Text(viewModel.detailCrypto.priceChange24H.formatToDollar() ?? "")
+                    Text("\(viewModel.detailCrypto.marketCap)")
+                }
+            }
+            .navigationTitle("Detail")
+        }
     }
 }
 
