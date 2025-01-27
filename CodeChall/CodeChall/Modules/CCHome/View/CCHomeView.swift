@@ -22,6 +22,11 @@ struct CCHomeView: View {
                 viewModel.emptyValueSearch()
             }
         }
+        .onAppear {
+            Task {
+                await viewModel.remoteDataManager.getData()
+            }
+        }
     }
     
     private var listView: some View {

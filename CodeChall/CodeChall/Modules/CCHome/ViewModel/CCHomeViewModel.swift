@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+@MainActor
 class CCHomeViewModel: ObservableObject {
     var remoteDataManager: CCHomeRemoteDataManager {
         let selfClass = CCHomeRemoteDataManager()
@@ -16,13 +16,6 @@ class CCHomeViewModel: ObservableObject {
     private var data: [CCCryptoDatum] = []
     @Published var strSearchText: String = ""
     @Published var searchData: [CCCryptoDatum] = []
-    
-    init() {
-        Task {
-            await remoteDataManager.getData()
-        }
-    }
-    
     
     func getCryptoData() -> CCCryptoData? {
         return data

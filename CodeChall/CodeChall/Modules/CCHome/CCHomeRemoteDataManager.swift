@@ -29,6 +29,5 @@ class CCHomeRemoteDataManager: CCHomeRemoteDataManagerInput {
             output?.errorResponse(error: error)
         }
         
-        
     }
 }
