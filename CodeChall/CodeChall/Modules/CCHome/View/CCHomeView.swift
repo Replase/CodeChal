@@ -51,7 +51,9 @@ struct CCHomeView: View {
                             .scaledToFit()
                             .frame(width: 35, height: 35)
                     case .failure:
-                        Text("Failed to load image")
+                        Image(systemName: "photo")
+                            .scaledToFit()
+                            .frame(width: 35, height: 35)
                     @unknown default:
                         EmptyView()
                     }
