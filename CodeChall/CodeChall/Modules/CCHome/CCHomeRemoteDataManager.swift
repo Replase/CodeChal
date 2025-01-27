@@ -9,7 +9,7 @@ struct EmptyRequest: Encodable {}
 protocol CCHomeRemoteDataManagerInput {
     func getData() async
 }
-
+@MainActor
 protocol CCHomeRemoteDataManagerOutput {
     func successResponse(data: CCCryptoData)
     func errorResponse(error: Error)
@@ -23,10 +23,10 @@ class CCHomeRemoteDataManager: CCHomeRemoteDataManagerInput {
         do {
             let data = try await service.sendRequest(urlRequest: CCPath.crypto.request, responseType: CCCryptoData.self)
             print("Respuesta del servidor: \(data)")
-            output?.successResponse(data: data)
+            await output?.successResponse(data: data)
         } catch {
             print("Error al enviar la solicitud: \(error)")
-            output?.errorResponse(error: error)
+            await output?.errorResponse(error: error)
         }
         
     }
