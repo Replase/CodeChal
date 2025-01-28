@@ -11,8 +11,14 @@ struct CCHomeView: View {
     @ObservedObject var viewModel: CCHomeViewModel = CCHomeViewModel()
     var body: some View {
         NavigationStack {
-            listView
-                .navigationTitle("Home")
+            ZStack {
+                listView
+                    .navigationTitle("Home")
+                if viewModel.bIsLoading {
+                    loadingView
+                }
+            }
+            
         }
         .searchable(text: $viewModel.strSearchText, prompt: "Search")
         .onChange(of: viewModel.strSearchText) { _, newValue in
@@ -24,6 +30,7 @@ struct CCHomeView: View {
         }
         .onAppear {
             Task {
+                viewModel.bIsLoading.toggle()
                 await viewModel.remoteDataManager.getData()
             }
         }
@@ -42,6 +49,23 @@ struct CCHomeView: View {
                 await viewModel.remoteDataManager.getData()
             }
         }
+    }
+    
+    private var loadingView: some View {
+        ZStack {
+            Color.black.opacity(0.5)
+                .ignoresSafeArea()
+            VStack {
+                ProgressView()
+                    .scaleEffect(1.5)
+                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                Text("Cargando...")
+                    .foregroundStyle(.white)
+                    .padding(.top, 10)
+            }
+        }
+        .transition(.opacity)
+        .animation(.easeInOut, value: viewModel.bIsLoading)
     }
     
     private func rowCrypto(cryp: CCCryptoDatum) -> some View {

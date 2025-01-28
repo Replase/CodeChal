@@ -16,6 +16,7 @@ class CCHomeViewModel: ObservableObject {
     private var data: [CCCryptoDatum] = []
     @Published var strSearchText: String = ""
     @Published var searchData: [CCCryptoDatum] = []
+    @Published var bIsLoading: Bool = false
     
     func getCryptoData() -> CCCryptoData? {
         return data
@@ -33,11 +34,13 @@ class CCHomeViewModel: ObservableObject {
 
 extension CCHomeViewModel: CCHomeRemoteDataManagerOutput {
     func successResponse(data: CCCryptoData) {
+        bIsLoading.toggle()
         self.data = data
         emptyValueSearch()
     }
     
     func errorResponse(error: any Error) {
+        bIsLoading.toggle()
         print("\(error)")
     }
     
