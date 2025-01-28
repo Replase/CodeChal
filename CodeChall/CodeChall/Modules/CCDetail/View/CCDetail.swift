@@ -38,11 +38,44 @@ struct CCDetail: View {
                             }
                         }
                     }
-                    Text("\(viewModel.detailCrypto.totalVolume)")
-                    Text(viewModel.detailCrypto.high24H.formatToDollar() ?? "")
-                    Text(viewModel.detailCrypto.low24H.formatToDollar() ?? "")
-                    Text(viewModel.detailCrypto.priceChange24H.formatToDollar() ?? "")
-                    Text("\(viewModel.detailCrypto.marketCap)")
+                    Text("Last 24 hours")
+                        .font(.title2)
+                    HStack {
+                        VStack(alignment: .leading, spacing: 16) {
+                            HStack {
+                                Text("Total Volume:")
+                                    .font(.headline)
+                                Spacer()
+                                Text("\(viewModel.detailCrypto.totalVolume)")
+                            }
+                            HStack {
+                                Text("Higher Price:")
+                                    .font(.headline)
+                                Spacer()
+                                Text(viewModel.detailCrypto.high24H.formatToDollar() ?? "")
+                            }
+                            HStack {
+                                Text("Lower Price:")
+                                    .font(.headline)
+                                Spacer()
+                                Text(viewModel.detailCrypto.low24H.formatToDollar() ?? "")
+                            }
+                            HStack {
+                                Text("Price Change:")
+                                    .font(.headline)
+                                Spacer()
+                                Text(viewModel.detailCrypto.priceChange24H.formatToDollar() ?? "")
+                            }
+                            HStack {
+                                Text("Market Cap")
+                                    .font(.headline)
+                                Spacer()
+                                Text("\(viewModel.detailCrypto.marketCap)")
+                            }
+                        }
+                        Spacer()
+                    }
+                    .padding()
                 }
             }
             .navigationTitle("Detail")
